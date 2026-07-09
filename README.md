@@ -144,8 +144,10 @@ Here is exactly how to adapt the project for your own workflow:
 1. **Provide Your Own CSV:**
    Instead of using the dummy data generator, simply create a CSV file (e.g., `my_custom_reports.csv`) that contains a single column listing the absolute file paths to your own JSON files. It should look like this:
    ```csv
-   /Users/surya/data/json_exports/report_2023.json
-   /Users/surya/data/json_exports/report_2024.json
+   file_path
+   /Users/data/json_exports/report_2023.json
+   /Users/data/json_exports/report_2024.json
+   ...
    ```
 2. **Run the Extractor:**
    Run the ingestion script pointing to your CSV:
