@@ -49,34 +49,50 @@ json-to-duckdb-elt/
 
 ## 🏗️ Architecture Overview
 
-### The Problem
-We wanted to visualize our JSON data, but **JSON is unstructured**. It is incredibly difficult to perform `GROUP BY` operations, aggregations, or complex analytical queries on deeply nested 4-layer JSON arrays. 
+### 🛑 The Problem
 
-For example, imagine trying to write standard SQL to find the average skill level of employees across departments from this chaotic JSON structure:
+Want to run blazingly fast analytical queries across fields in deeply nested JSON? 
+
+Your first instinct might be to dump it all into MongoDB or another NoSQL database. But here is the catch: **NoSQL databases are built for transactional application state, not for heavy analytical aggregations.** 
+
+If you want to use a Business Intelligence (BI) tool like **Metabase** or **Apache Superset** to create beautiful dashboards, they expect clean, structured, flat relational tables. They do not know how to handle chaotic JSON.
+
+Take a look at this sample JSON:
 
 ```json
 {
-  "report_name": "Enterprise Data",
-  "departments": [
-    {
-      "dept_name": "Engineering",
-      "employees": [
-        {
-          "name": "Alice",
-          "skills": [
-            {"skill_name": "Python", "level": "Expert"},
-            {"skill_name": "SQL", "level": "Intermediate"}
-          ]
-        }
+  "event_id": "evt_987654321",
+  "timestamp": "2023-10-27T14:32:00Z",
+  "metadata": {
+    "source_system": "mobile_app",
+    "region": "US-West"
+  },
+  "payload": {
+    "user": {
+      "id": "u_123",
+      "session_history": [
+        {"login_time": "08:00", "device": "iOS"},
+        {"login_time": "14:00", "device": "Web"}
       ]
-    }
-  ]
+    },
+    "purchases": [
+      {
+        "transaction_id": "tx_001",
+        "items": [
+          {"product_id": "p_99", "price": 49.99, "tags": ["electronics", "sale"]},
+          {"product_id": "p_42", "price": 9.99, "tags": ["accessories"]}
+        ]
+      }
+    ]
+  }
 }
 ```
 
-BI tools like **Metabase** need clean, structured, flat tables to build beautiful dashboards, but feeding them chaotic JSON directly simply doesn't work.
+How do you write a SQL query to find the *average revenue per user by region* when the data is buried 4 layers deep inside lists of lists? 
 
-### The Solution
+Now, ask yourself: **What if you have 100 million of these JSON files?** Writing complex cross-field JSON extraction queries on the fly becomes computationally impossible.
+
+### 💡 The Solution
 To bring strict relational structure to our JSON, we perform this 3-step pipeline:
 
 1. **Ingest (`dlt`)**: The `dlt` Python library reads the chaotic JSON and automatically normalizes it into a highly relational schema. It auto-generates Primary Keys (`_dlt_id`) and Foreign Keys (`_dlt_parent_id`), stripping away the nesting.
