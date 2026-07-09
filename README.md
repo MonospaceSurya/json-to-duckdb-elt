@@ -134,6 +134,27 @@ python3 3_document.py --engine duckdb --pipeline_name my_pipeline --db_path ./db
 
 ---
 
+## 🛠️ Customizing for Your Own Data
+
+Want to run this pipeline on your own chaotic JSON files? It's incredibly easy because the ingestion script **dynamically infers your schema**. You don't need to write a single line of Python to parse your custom JSON!
+
+Here is exactly how to adapt the project for your own workflow:
+
+1. **Provide Your Own CSV:**
+   Instead of using the dummy data generator, simply create a CSV file (e.g., `my_custom_reports.csv`) that contains a single column listing the absolute file paths to your own JSON files.
+2. **Run the Extractor:**
+   Run the ingestion script pointing to your CSV:
+   ```bash
+   python3 1_extract_load.py --csv my_custom_reports.csv --pipeline_name my_custom_data
+   ```
+   *The `dlt` engine will automatically map out every array and nested object in your JSON files and generate the relational DuckDB tables.*
+3. **Write Your Custom SQL:**
+   Open the `analytics_transform/models/` folder. Delete the demo SQL files and write your own `dbt` models using standard SQL `JOIN`s to flatten your specific data. (Tip: Run `3_document.py` first to generate a Markdown schema so you know exactly what tables and Foreign Keys `dlt` created for you!)
+4. **Transform:**
+   Run `2_transform.py` to compile your new custom models into your database!
+
+---
+
 ## 🔄 Changing the Database Engine
 
 This project supports a **Dual-Engine Architecture**. You can seamlessly swap between **DuckDB** (for blazing fast analytics) and **SQLite** (for simple lightweight apps) simply by passing arguments to the CLI!
