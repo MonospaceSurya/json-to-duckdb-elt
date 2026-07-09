@@ -43,11 +43,18 @@ json-to-duckdb-elt/
 
 ## 🏗️ Architecture Overview
 
-Handling JSON with 4-layer deep nested lists (e.g., `departments` -> `employees` -> `skills`) is a massive pain in standard SQL. This project solves that elegantly in three steps:
+### The Problem
+We wanted to visualize our JSON data, but **JSON is unstructured**. It is incredibly difficult to perform `GROUP BY` operations, aggregations, or complex analytical queries on deeply nested 4-layer JSON arrays (e.g., `departments` -> `employees` -> `skills`). BI tools like **Metabase** need clean, structured, flat tables to build beautiful dashboards, but feeding them chaotic JSON directly simply doesn't work.
 
-1. **Ingest (`dlt`)**: The `dlt` Python library reads the chaotic JSON and automatically normalizes it into a highly relational schema, auto-generating Primary Keys (`_dlt_id`) and Foreign Keys (`_dlt_parent_id`).
-2. **Transform (`dbt`)**: `dbt` runs complex `JOIN` models to re-flatten the data into wide, analytical tables (e.g., `analytics_employee_performance`).
+### The Solution
+To bring strict relational structure to our JSON, we perform this 3-step pipeline:
+
+1. **Ingest (`dlt`)**: The `dlt` Python library reads the chaotic JSON and automatically normalizes it into a highly relational schema. It auto-generates Primary Keys (`_dlt_id`) and Foreign Keys (`_dlt_parent_id`), stripping away the nesting.
+2. **Transform (`dbt`)**: `dbt` runs complex `JOIN` models to re-flatten the normalized data into wide, analytical tables (e.g., `analytics_employee_performance`) that are perfectly optimized for BI aggregation.
 3. **Document**: A custom Python script connects to the `information_schema` and auto-generates a gorgeous Markdown schema mapping for developers.
+
+### Why DuckDB?
+DuckDB is an insanely fast, in-process analytical database. It can effortlessly chew through **500 million rows** on a standard laptop, making it the perfect engine for powering blazing-fast BI dashboards without the overhead of managing a traditional cloud data warehouse!
 
 ---
 
