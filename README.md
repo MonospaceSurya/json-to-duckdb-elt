@@ -49,7 +49,7 @@ json-to-duckdb-elt/
 
 ## 🏗️ Architecture Overview
 
-### 🛑 The Problem
+### The Problem
 
 Want to run blazingly fast analytical queries across fields in deeply nested JSON? 
 
@@ -92,7 +92,7 @@ How do you write a SQL query to find the *average revenue per user by region* wh
 
 Now, ask yourself: **What if you have 100 million of these JSON files?** Writing complex cross-field JSON extraction queries on the fly becomes computationally impossible.
 
-### 💡 The Solution
+### The Solution
 To bring strict relational structure to our JSON, we perform this 3-step pipeline:
 
 1. **Ingest (`dlt`)**: The `dlt` Python library reads the chaotic JSON and automatically normalizes it into a highly relational schema. It auto-generates Primary Keys (`_dlt_id`) and Foreign Keys (`_dlt_parent_id`), stripping away the nesting.
