@@ -20,7 +20,8 @@ Perfect for feeding BI tools like Metabase or Apache Superset!
 2. [Architecture Overview](#-architecture-overview)
 3. [Prerequisites](#-prerequisites)
 4. [Quickstart Guide](#-quickstart-guide)
-5. [Changing the Database Engine](#-changing-the-database-engine)
+5. [Customizing for Your Own Data](#-customizing-for-your-own-data)
+6. [Changing the Database Engine](#-changing-the-database-engine)
 
 ---
 
@@ -141,7 +142,11 @@ Want to run this pipeline on your own chaotic JSON files? It's incredibly easy b
 Here is exactly how to adapt the project for your own workflow:
 
 1. **Provide Your Own CSV:**
-   Instead of using the dummy data generator, simply create a CSV file (e.g., `my_custom_reports.csv`) that contains a single column listing the absolute file paths to your own JSON files.
+   Instead of using the dummy data generator, simply create a CSV file (e.g., `my_custom_reports.csv`) that contains a single column listing the absolute file paths to your own JSON files. It should look like this:
+   ```csv
+   /Users/surya/data/json_exports/report_2023.json
+   /Users/surya/data/json_exports/report_2024.json
+   ```
 2. **Run the Extractor:**
    Run the ingestion script pointing to your CSV:
    ```bash
@@ -151,7 +156,10 @@ Here is exactly how to adapt the project for your own workflow:
 3. **Write Your Custom SQL:**
    Open the `analytics_transform/models/` folder. Delete the demo SQL files and write your own `dbt` models using standard SQL `JOIN`s to flatten your specific data. (Tip: Run `3_document.py` first to generate a Markdown schema so you know exactly what tables and Foreign Keys `dlt` created for you!)
 4. **Transform:**
-   Run `2_transform.py` to compile your new custom models into your database!
+   Run the transform script to compile your new custom models into your database!
+   ```bash
+   python3 2_transform.py --target dev_duckdb --dbt_project_dir analytics_transform --db_path ./db/my_custom_data.duckdb
+   ```
 
 ---
 
