@@ -49,7 +49,31 @@ json-to-duckdb-elt/
 ## 🏗️ Architecture Overview
 
 ### The Problem
-We wanted to visualize our JSON data, but **JSON is unstructured**. It is incredibly difficult to perform `GROUP BY` operations, aggregations, or complex analytical queries on deeply nested 4-layer JSON arrays (e.g., `departments` -> `employees` -> `skills`). BI tools like **Metabase** need clean, structured, flat tables to build beautiful dashboards, but feeding them chaotic JSON directly simply doesn't work.
+We wanted to visualize our JSON data, but **JSON is unstructured**. It is incredibly difficult to perform `GROUP BY` operations, aggregations, or complex analytical queries on deeply nested 4-layer JSON arrays. 
+
+For example, imagine trying to write standard SQL to find the average skill level of employees across departments from this chaotic JSON structure:
+
+```json
+{
+  "report_name": "Enterprise Data",
+  "departments": [
+    {
+      "dept_name": "Engineering",
+      "employees": [
+        {
+          "name": "Alice",
+          "skills": [
+            {"skill_name": "Python", "level": "Expert"},
+            {"skill_name": "SQL", "level": "Intermediate"}
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+BI tools like **Metabase** need clean, structured, flat tables to build beautiful dashboards, but feeding them chaotic JSON directly simply doesn't work.
 
 ### The Solution
 To bring strict relational structure to our JSON, we perform this 3-step pipeline:
