@@ -1,0 +1,26 @@
+name: 'analytics_transform'
+version: '1.0.0'
+config-version: 2
+
+profile: 'analytics_transform'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+# Redirect all auto-generated rubbish to a hidden local folder (.dbt_system)
+target-path: ".dbt_system/target"
+log-path: ".dbt_system/logs"
+packages-install-path: ".dbt_system/dbt_packages"
+
+# If you want dbt logs to be cleaned when you run dbt clean command.
+clean-targets:
+  - ".dbt_system/target"
+  - ".dbt_system/dbt_packages"
+
+models:
+  analytics_transform:
+    +materialized: table

@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: main
+    tables:
+      - name: main_report
+      - name: main_report__departments
+      - name: main_report__departments__projects
+      - name: main_report__departments__projects__metrics
+      - name: main_report__departments__employees
+      - name: main_report__departments__employees__skills
+      - name: main_report__departments__employees__performance_reviews

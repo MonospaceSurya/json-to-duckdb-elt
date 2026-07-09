@@ -1,0 +1,24 @@
+# Data & Logs
+/db/
+/sample_reports/
+reports_list.csv
+*.log
+*.duckdb
+*.db
+
+# Python
+__pycache__/
+*.pyc
+.env
+.venv/
+venv/
+env/
+
+# dbt
+/analytics_transform/target/
+/analytics_transform/logs/
+/analytics_transform/dbt_packages/
+.dbt_system/
+
+# OS Files
+.DS_Store
