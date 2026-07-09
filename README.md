@@ -3,10 +3,15 @@
 [![dlt](https://img.shields.io/badge/ingestion-dlt-blue.svg)](https://dlthub.com/)
 [![dbt](https://img.shields.io/badge/transformation-dbt-orange.svg)](https://www.getdbt.com/)
 [![duckdb](https://img.shields.io/badge/database-DuckDB-yellow.svg)](https://duckdb.org/)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 An automated, end-to-end Extract, Load, and Transform (ELT) pipeline designed to ingest deeply nested, highly complex JSON reports and flatten them into beautiful analytical tables. 
 
 Perfect for feeding BI tools like Metabase or Apache Superset!
+
+> **⭐️ If you find this project useful, please consider giving it a star on GitHub! It helps others discover the project.**
 
 ---
 
